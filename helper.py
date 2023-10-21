@@ -2,16 +2,29 @@ import pandas as pd
 import os
 import sys
 
-def get_pd_from_json(root_path:str, json_file: str):
+def explode_dictionary(pd_df: pd.DataFrame, field: str) -> pd.DataFrame:
     '''
-    Converts JSON file into Pandas Dataframe
+    Explodes a dictionary within a column as multiple columns
+
+    Parameters:
+    pd_df (pd.Dataframe): The pandas dataframe to extract column dictionary
+    field (str): The column dictionary to explode
+
+    Returns:
+    pd.DataFrame: The new pandas dataframe with exploded column
+    '''
+    return pd.concat([pd_df.drop(field, axis=1), pd_df[field].apply(pd.Series)], axis=1)
+
+def get_pd_from_json(root_path:str, json_file: str) -> pd.DataFrame:
+    '''
+    Converts JSON file into Pandas Dataframe using PySpark for faster performance
 
     Parameters:
     root_path (str): The relative root_path directory of the dataset
     json_file (str): The json file in the directory
 
     Returns:
-    pandas: Pandas dataframe from json_file
+    pd.DataFrame: Pandas dataframe from json_file
     '''
 
     # Get the filepath for the jsons
@@ -20,9 +33,14 @@ def get_pd_from_json(root_path:str, json_file: str):
     # Read json as pandas dataframe
     pd_df = pd.read_json(json_fp)
 
+    # Expand dictionaries into individual columns
+    pd_df = explode_dictionary(pd_df, 'metadata')
+    pd_df = explode_dictionary(pd_df, 'premise_articles')
+    pd_df = explode_dictionary(pd_df, 'label')
+
     return pd_df
 
-def read_watclaimcheck_dataset(root_path: str):
+def read_watclaimcheck_dataset(root_path: str) -> tuple:
     '''
     Reads in the WatClaimCheck dataset from the filepath and returns a pandas dataframe of the train, valid, and test datasets
 
@@ -48,4 +66,3 @@ if __name__ == "__main__":
         raise Exception('Relative directory not found!\nUsage: python helper.py <absolute_dataset_fp>')
 
     train_pd, valid_pd, test_pd = read_watclaimcheck_dataset(dataset_fp)
-    print(train_pd.info(verbose=True))
