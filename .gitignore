@@ -1,2 +1,3 @@
 WatClaimCheck_dataset
 envs/*
+__pycache__/*

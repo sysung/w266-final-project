@@ -60,7 +60,7 @@ Create the conda environment using the ./env file
 
 If you have a library to add, you can use the following command to add it into the environment.yml
 
-`conda env update --prefix ./envs --file environment.yml  --prune`
+`conda env export -f environment.yml`
 
 For more information about conda, see https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#managing-environments
 
