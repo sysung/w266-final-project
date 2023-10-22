@@ -50,10 +50,6 @@ List any software, libraries, or dependencies that users need to have installed 
 
 To download the dataset, go to the [WatClaimCheck Git Repo](https://github.com/nxii/WatClaimCheck/tree/main) and submit a [Google Forms](https://forms.gle/sEZjvJqmyHdR4AMKA) to receive a copy of the dataset.
 
-#### GCP Login
-
-`gcp auth login`
-
 #### Creating Conda Environment
 
 Create the conda environment using the ./env file
