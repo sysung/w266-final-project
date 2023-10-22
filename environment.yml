@@ -1,4 +1,4 @@
-name: W266-final-project
+name: w266-final-project
 channels:
   - conda-forge
   - defaults
@@ -74,9 +74,15 @@ dependencies:
       - charset-normalizer==3.3.0
       - flatbuffers==23.5.26
       - gast==0.4.0
+      - google-api-core==2.12.0
       - google-auth==2.23.3
       - google-auth-oauthlib==1.0.0
+      - google-cloud-core==2.3.3
+      - google-cloud-storage==2.12.0
+      - google-crc32c==1.5.0
       - google-pasta==0.2.0
+      - google-resumable-media==2.6.0
+      - googleapis-common-protos==1.61.0
       - grpcio==1.59.0
       - h5py==3.10.0
       - idna==3.4
