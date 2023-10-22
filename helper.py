@@ -2,27 +2,6 @@ import pandas as pd
 import os
 import json
 
-def download_json_into_memory(bucket_name, blob_name):
-    """Downloads a json into memory."""
-    # The ID of your GCS bucket
-    # bucket_name = "your-bucket-name"
-
-    # The ID of your GCS object
-    # blob_name = "storage-object-name"
-
-    storage_client = storage.Client()
-
-    bucket = storage_client.bucket(bucket_name)
-
-    # Construct a client side representation of a blob.
-    # Note `Bucket.blob` differs from `Bucket.get_blob` as it doesn't retrieve
-    # any content from Google Cloud Storage. As we don't need additional data,
-    # using `Bucket.blob` is preferred here.
-    blob = bucket.blob(blob_name)
-    contents = json.loads(blob.download_as_string())
-
-    return contents
-
 def get_pd_from_json(json_file: str) -> pd.DataFrame:
     '''
     Converts JSON file into Pandas Dataframe
