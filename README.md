@@ -56,13 +56,15 @@ Create the conda environment using the ./env file
 
 `conda env create --prefix ./envs -f environment.yml`
 
+Once the environment has been created, you can activate it using the following command
+
 `conda activate ./envs`
 
 To shorten the long prefix in the shell, use the following command. You'll need to deactivate and reactivate for the change to take effect
 
 `conda config --set env_prompt '({name})'`
 
-If you have a library to add, you can use the following command to add it into the environment.yml
+If you have a library to add, you can use the following command to add it into the environment.yml so that the libraries are shared
 
 `conda env export -f environment.yml`
 
