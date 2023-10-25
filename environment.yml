@@ -91,6 +91,8 @@ dependencies:
       - h5py==3.10.0
       - huggingface-hub==0.17.3
       - idna==3.4
+      - ipywidgets==8.1.1
+      - jupyterlab-widgets==3.0.9
       - keras==2.13.1
       - kiwisolver==1.4.5
       - libclang==16.0.6
@@ -130,5 +132,6 @@ dependencies:
       - tzdata==2023.3
       - urllib3==2.0.7
       - werkzeug==3.0.0
+      - widgetsnbextension==4.0.9
       - wrapt==1.14.1
 prefix: /home/sysung98/MIDS/W266-final-project/envs
