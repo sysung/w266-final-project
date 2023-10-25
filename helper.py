@@ -19,7 +19,7 @@ def get_pd_from_json(json_file: str) -> pd.DataFrame:
 
 def download_dataset(dataset_fp: str) -> tuple:
     '''
-    Reads in the WatClaimCheck dataset from the filepath and returns a pandas dataframe of the train, valid, and test datasets
+    Reads the WatClaimCheck dataset from the filepath and returns a pandas dataframe of the train, valid, and test datasets
 
     Parameters:
     dataset_fp (str): Filepath of dataset
@@ -39,6 +39,21 @@ def download_dataset(dataset_fp: str) -> tuple:
     test_pd = get_pd_from_json(test_json_fp)
 
     return train_pd, valid_pd, test_pd
+
+def download_prequential_dataset(dataset_fp: str, num_months: int = 6) -> List[pd.DataFrames]:
+    '''
+    Reads the WatClaimCheckdataset from the fileapth and returns a prequential pandas dataframe where each split is `num_months` months long
+
+    Parameters:
+    dataset_fp (str): Filepath of datset
+    num_months (int): Number of months per partition
+
+    Returns:
+    List[pd.DataFrames]: List of prequetial dataframes
+    '''
+    train_pd, valid_pd, test_pd = download_dataset(dataset_fp)
+
+    return
 
 def download_article(dataset_fp: str, article_file: str) -> dict:
     '''
