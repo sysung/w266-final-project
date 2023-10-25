@@ -1,1 +1,3 @@
-WatClaimCheck_dataset
+WatClaimCheck*
+envs/*
+__pycache__/*
