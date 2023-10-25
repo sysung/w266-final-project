@@ -40,13 +40,13 @@ def download_dataset(dataset_fp: str) -> tuple:
 
     return train_pd_df, valid_pd_df, test_pd_df
 
-def download_prequential_dataset(dataset_fp: str, num_months: int = 6) -> list[pd.DataFrame]:
+def download_prequential_dataset(dataset_fp: str, month_interval: int = 6, start_date: str = None, end_date: str = None) -> list[pd.DataFrame]:
     '''
-    Reads the WatClaimCheckdataset from the fileapth and returns a prequential pandas dataframe where each split is `num_months` months long by `review_date`
+    Reads the WatClaimCheckdataset from the fileapth and returns a prequential pandas dataframe where each split is `month_interval` months long by `review_date`
 
     Parameters:
-    dataset_fp (str): Filepath of datset
-    num_months (int): Number of months per partition
+    dataset_fp     (str): Filepath of datset
+    month_interval (int): Number of months per partition
 
     Returns:
     List[pd.DataFrames]: List of prequetial dataframes
@@ -57,7 +57,31 @@ def download_prequential_dataset(dataset_fp: str, num_months: int = 6) -> list[p
     # Get all of the data corresponding to the metadata and labels
     clean_full_pd_df = clean_pd_df(full_pd_df)
 
-    return [clean_full_pd_df]
+    # Define the start date and end date for partitioning
+    start_date = clean_full_pd_df['review_date'].min() if start_date is None else start_date
+    end_date = clean_full_pd_df['review_date'].max() if end_date is None else end_date
+
+    print(f"Start date is {start_date.strftime('%Y-%m-%d')}. End date is {end_date.strftime('%Y-%m-%d')}")
+
+    # Initialize partitions array
+    partitions = []
+
+    # Iterate through 6-month intervals
+    while start_date <= end_date:
+        offset_date = start_date + pd.DateOffset(months=month_interval)
+        # print(f"Creating partition from {start_date.strftime('%Y-%m-%d')} to {offset_date.strftime('%Y-%m-%d')}")
+
+        start_date_condition = clean_full_pd_df['review_date'] >= start_date
+        offset_date_condition = clean_full_pd_df['review_date'] < offset_date
+        partitioned_df = clean_full_pd_df[start_date_condition & offset_date_condition].copy()
+
+        partitions.append(partitioned_df)
+
+        start_date = offset_date
+
+    print(f"Created {len(partitions)} partitions")
+
+    return partitions
 
 def download_article(dataset_fp: str, article_file: str) -> dict:
     '''
