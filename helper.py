@@ -1,21 +1,8 @@
+from datetime import datetime
+
 import pandas as pd
 import os
 import json
-
-def get_pd_from_json(json_file: str) -> pd.DataFrame:
-    '''
-    Converts JSON file into Pandas Dataframe
-
-    Parameters:
-    json_file (str): The json file in the directory
-
-    Returns:
-    pd.DataFrame: Pandas dataframe from json_file
-    '''
-
-    pd_df = pd.read_json(json_file)
-
-    return pd_df
 
 def download_dataset(dataset_fp: str) -> tuple:
     '''
@@ -34,54 +21,64 @@ def download_dataset(dataset_fp: str) -> tuple:
     test_json_fp = os.path.join(dataset_fp, 'test.json')
 
     # Get pandas dataframe from json
-    train_pd_df = get_pd_from_json(train_json_fp)
-    valid_pd_df = get_pd_from_json(valid_json_fp)
-    test_pd_df = get_pd_from_json(test_json_fp)
+    train_pd_df = pd.read_json(train_json_fp)
+    valid_pd_df = pd.read_json(valid_json_fp)
+    test_pd_df = pd.read_json(test_json_fp)
 
     return train_pd_df, valid_pd_df, test_pd_df
 
-def download_prequential_dataset(dataset_fp: str, month_interval: int = 6, start_date: str = None, end_date: str = None) -> list[pd.DataFrame]:
+def filter_by_review_date(df: pd.DataFrame, start_date: datetime, end_date: datetime):
+    start_date_condition = df['review_date'] >= start_date
+    end_date_condition = df['review_date'] < end_date
+    return df[start_date_condition & end_date_condition].copy()
+
+def download_prequential_dataset(dataset_fp: str, month_interval: int = 6, start_date: datetime = datetime(2010, 1, 1), end_date: datetime = datetime(2021, 7, 1)) -> tuple:
     '''
     Reads the WatClaimCheckdataset from the fileapth and returns a prequential pandas dataframe where each split is `month_interval` months long by `review_date`
+    The dataset should be used similarly to time series cross validation.
 
     Parameters:
     dataset_fp     (str): Filepath of datset
     month_interval (int): Number of months per partition
 
     Returns:
-    List[pd.DataFrames]: List of prequetial dataframes
+    tuple: Tuple of lists of prequetial dataframes
     '''
-    # Concatenate all train, valid, and test dataframes
-    full_pd_df = pd.concat(download_dataset(dataset_fp)).reset_index(drop=True)
+    # TODO: Look into Window Generation https://www.tensorflow.org/tutorials/structured_data/time_series#data_windowing
+
+    # Download dataset
+    train_pd_df, valid_pd_df, test_pd_df = download_dataset(dataset_fp)
 
     # Get all of the data corresponding to the metadata and labels
-    clean_full_pd_df = clean_pd_df(full_pd_df)
-
-    # Define the start date and end date for partitioning
-    start_date = clean_full_pd_df['review_date'].min() if start_date is None else start_date
-    end_date = clean_full_pd_df['review_date'].max() if end_date is None else end_date
+    clean_train_pd_df = clean_pd_df(train_pd_df)
+    clean_valid_pd_df = clean_pd_df(valid_pd_df)
+    clean_test_pd_df = clean_pd_df(test_pd_df)
 
     print(f"Start date is {start_date.strftime('%Y-%m-%d')}. End date is {end_date.strftime('%Y-%m-%d')}")
 
     # Initialize partitions array
-    partitions = []
+    train_partitions = []
+    valid_partitions = []
+    test_partitions = []
 
     # Iterate through 6-month intervals
-    while start_date <= end_date:
+    while start_date < end_date:
         offset_date = start_date + pd.DateOffset(months=month_interval)
         # print(f"Creating partition from {start_date.strftime('%Y-%m-%d')} to {offset_date.strftime('%Y-%m-%d')}")
 
-        start_date_condition = clean_full_pd_df['review_date'] >= start_date
-        offset_date_condition = clean_full_pd_df['review_date'] < offset_date
-        partitioned_df = clean_full_pd_df[start_date_condition & offset_date_condition].copy()
+        train_partition_df = filter_by_review_date(clean_train_pd_df, start_date, offset_date)
+        valid_partition_df = filter_by_review_date(clean_valid_pd_df, start_date, offset_date)
+        test_partition_df = filter_by_review_date(clean_test_pd_df, start_date, offset_date)
 
-        partitions.append(partitioned_df)
+        train_partitions.append(train_partition_df)
+        valid_partitions.append(valid_partition_df)
+        test_partitions.append(test_partition_df)
 
         start_date = offset_date
 
-    print(f"Created {len(partitions)} partitions")
+    print(f"Created {len(train_partitions)} partitions")
 
-    return partitions
+    return train_partitions, valid_partitions, test_partitions
 
 def download_article(dataset_fp: str, article_file: str) -> dict:
     '''
