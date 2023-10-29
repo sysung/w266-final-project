@@ -1,4 +1,4 @@
-name: w266-final-project
+name: /home/sysung98/MIDS/W266-final-project/envs
 channels:
   - conda-forge
   - defaults
@@ -74,8 +74,10 @@ dependencies:
       - charset-normalizer==3.3.0
       - contourpy==1.1.1
       - cycler==0.12.1
+      - filelock==3.12.4
       - flatbuffers==23.5.26
       - fonttools==4.43.1
+      - fsspec==2023.10.0
       - gast==0.4.0
       - google-api-core==2.12.0
       - google-auth==2.23.3
@@ -87,7 +89,10 @@ dependencies:
       - googleapis-common-protos==1.61.0
       - grpcio==1.59.0
       - h5py==3.10.0
+      - huggingface-hub==0.17.3
       - idna==3.4
+      - ipywidgets==8.1.1
+      - jupyterlab-widgets==3.0.9
       - keras==2.13.1
       - kiwisolver==1.4.5
       - libclang==16.0.6
@@ -105,11 +110,15 @@ dependencies:
       - pyarrow==13.0.0
       - pyasn1==0.5.0
       - pyasn1-modules==0.3.0
+      - pydot==1.4.2
       - pyparsing==3.1.1
       - pytz==2023.3.post1
+      - pyyaml==6.0.1
+      - regex==2023.10.3
       - requests==2.31.0
       - requests-oauthlib==1.3.1
       - rsa==4.9
+      - safetensors==0.4.0
       - tenacity==8.2.3
       - tensorboard==2.13.0
       - tensorboard-data-server==0.7.1
@@ -117,8 +126,13 @@ dependencies:
       - tensorflow-estimator==2.13.0
       - tensorflow-io-gcs-filesystem==0.34.0
       - termcolor==2.3.0
+      - tokenizers==0.14.1
+      - tqdm==4.66.1
+      - transformers==4.34.1
       - typing-extensions==4.5.0
       - tzdata==2023.3
       - urllib3==2.0.7
       - werkzeug==3.0.0
+      - widgetsnbextension==4.0.9
       - wrapt==1.14.1
+prefix: /home/sysung98/MIDS/W266-final-project/envs
