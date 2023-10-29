@@ -7,6 +7,7 @@ import json
 def download_dataset(dataset_fp: str) -> tuple:
     '''
     Reads the WatClaimCheck dataset from the filepath and returns a pandas dataframe of the train, valid, and test datasets
+    Reads the WatClaimCheck dataset from the filepath and returns a pandas dataframe of the train, valid, and test datasets
 
     Parameters:
     dataset_fp (str): Filepath of dataset
