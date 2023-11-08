@@ -26,9 +26,14 @@ def download_dataset(dataset_fp: str) -> tuple:
     valid_pd_df = pd.read_json(valid_json_fp)
     test_pd_df = pd.read_json(test_json_fp)
 
-    return train_pd_df, valid_pd_df, test_pd_df
+    # Get all of the data corresponding to the metadata and labels
+    clean_train_pd_df = clean_pd_df(train_pd_df)
+    clean_valid_pd_df = clean_pd_df(valid_pd_df)
+    clean_test_pd_df = clean_pd_df(test_pd_df)
 
-def filter_by_review_date(df: pd.DataFrame, start_date: datetime, end_date: datetime):
+    return clean_train_pd_df, clean_valid_pd_df, clean_test_pd_df
+
+def filter_by_review_date(df: pd.DataFrame, start_date: datetime, end_date: datetime) -> pd.DataFrame:
     start_date_condition = df['review_date'] >= start_date
     end_date_condition = df['review_date'] < end_date
     return df[start_date_condition & end_date_condition].copy()
@@ -49,11 +54,6 @@ def download_prequential_dataset(dataset_fp: str, month_interval: int = 6, start
 
     # Download dataset
     train_pd_df, valid_pd_df, test_pd_df = download_dataset(dataset_fp)
-
-    # Get all of the data corresponding to the metadata and labels
-    clean_train_pd_df = clean_pd_df(train_pd_df)
-    clean_valid_pd_df = clean_pd_df(valid_pd_df)
-    clean_test_pd_df = clean_pd_df(test_pd_df)
 
     print(f"Start date is {start_date.strftime('%Y-%m-%d')}. End date is {end_date.strftime('%Y-%m-%d')}")
 
