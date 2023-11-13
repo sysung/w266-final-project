@@ -114,10 +114,10 @@ def clean_pd_df(pd_df: pd.DataFrame) -> pd.DataFrame:
     pd_df = explode_dictionary(pd_df, 'label')
     
     # Set claim_date as review_date if review_date does not exist
-    pd_df['review_date'].fillna(pd_df['claim_date'], inplace=True)
+    # pd_df['review_date'].fillna(pd_df['claim_date'], inplace=True)
 
     # Convert review_date to date time
-    pd_df['review_date'] = pd.to_datetime(pd_df['review_date'].str.split('T', expand=True)[0])
+    # pd_df['review_date'] = pd.to_datetime(pd_df['review_date'].str.split('T', expand=True)[0])
 
     # Drop ID
     pd_df = pd_df.drop(columns=['id'])
