@@ -1,7 +1,6 @@
 # Identifying Misinformation in Social Media and New Sources
 
-This is the repo for the W266 Final Project which holds the code, model, papers, and other resources.
-
+This is the repo for the W266 Final Project which holds the code, model, papers, and other resources for misinformation detection.
 
 ## Table of Contents
 - [Project Overview](#project-overview)

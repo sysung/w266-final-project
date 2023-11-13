@@ -1,3 +1,5 @@
 WatClaimCheck*
 envs/*
 __pycache__/*
+*.ckpt*
+checkpoint
