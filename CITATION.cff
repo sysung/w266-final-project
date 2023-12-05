@@ -1,0 +1,18 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Identifying Misinformation in Social Media and New Sources
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Steven
+    family-names: Sung
+    email: sysung98@gmail.com
+    name-particle: Steven
+  - given-names: Peeti
+    family-names: Sriwongsanguan
+    email: peeti@berkeley.edu
+repository-code: 'https://github.com/sysung/w266-final-project'
